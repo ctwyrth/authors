@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Author's Nook - Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='css/style.css') }}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-8 mx-auto pe-3">
+                <h1 class="display-6">{{ author.first_name }} {{ author.last_name }}'s Favorite Books:</h1>
+                <table class="table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        {% for auth in auth_books: %}
+                        <tr>
+                            <td><a href="/favorited_by/{{ author.id }}">{{ auth.title }}</a></td>
+                            <td>{{ auth.num_of_pages }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="col-4 mx-auto"><button class="btn btn-sm btn-primary" onclick="enter()">Home</button></div>
+            </div>
+            <div class="col-4 mx-auto ps-3">
+                <h4>Add a New Favorite Book:</h4>
+                <form action="/create_book" method="POST" class="bg-primary p-4 rounded-3 mb-5">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Title:</span>
+                        <input type="text" name="title" id="title" class="form-control">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Pages:</span>
+                        <input type="number" name="pages" id="pages" class="form-control">
+                    </div>
+                    <dv class="d-grid">
+                        <input type="hidden" name="auth_id" id="auth_id" class="form-control" value="{{ author.id }}">
+                        <input type="submit" value="Add New Book to Author" class="btn btn-sm btn-info mx-auto">
+                    </dv>
+                </form>
+    
+                <h5>Select a Book to Favorite:</h5>
+                <form action="/add_book" method="POST" class="bg-success p-4 rounded-3">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="book_id">Books:</label>
+                        <select name="book_id" class="form-select" id="book_id">
+                            <option selected>Choose...</option>
+                            {% for book in books: %}
+                            <option value="{{ book.id }}">{{ book.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <input type="hidden" name="auth_id" id="auth_id" value="{{ author.id }}">
+                        <input type="submit" value="Favorite" class="btn btn-sm btn-dark mx-auto">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
